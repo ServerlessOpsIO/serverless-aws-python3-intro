@@ -2,19 +2,14 @@
 
 service: serverless-aws-python3-intro
 
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-# frameworkVersion: "=X.X.X"
-
 plugins:
   - serverless-python-requirements
 
 provider:
   name: aws
-# you can overwrite defaults here
-# Override these via command line --stage and --region.
-#  stage: dev
-#  region: us-east-1
+  profile: default
+  stage: dev
+  region: us-east-1
 
 # you can define service wide environment variables here
   environment:
