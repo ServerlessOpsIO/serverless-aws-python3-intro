@@ -62,4 +62,4 @@ def handler(event, context):
         )
     )
 
-    return True
+    return s3_resp
