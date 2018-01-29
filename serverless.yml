@@ -6,6 +6,9 @@ service: serverless-aws-python3-intro
 # Check out our docs for more details
 # frameworkVersion: "=X.X.X"
 
+plugins:
+  - serverless-python-requirements
+
 provider:
   name: aws
 # you can overwrite defaults here
