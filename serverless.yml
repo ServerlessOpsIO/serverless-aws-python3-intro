@@ -13,16 +13,8 @@ provider:
 #  stage: dev
 #  region: us-east-1
 
-  # Helpful for identifying resoruces. See also aws:cloudformation:stack-name
-  # which includes the stage name (STAGE tag) too.
-  stackTags:
-    serverless:service: ${self:service}
-
 # you can define service wide environment variables here
   environment:
-    # If we end up having Python dependencies they'll be installed into
-    # vendored/ in this project directory.
-    PYTHONPATH: "/var/runtime:/var/task/vendored"
     # This is referenced in handlers
     LOG_LEVEL: INFO
 
