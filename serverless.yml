@@ -51,7 +51,6 @@ resources:
     WriteEventToS3:
       Type: AWS::IAM::Role
       Properties:
-        Path: /service-role/
         RoleName: ${self:service}-${self:provider.stage}-${self:provider.region}-lambdaRole
         AssumeRolePolicyDocument:
           Statement:
