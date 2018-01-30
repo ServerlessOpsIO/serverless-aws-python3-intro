@@ -10,10 +10,22 @@ provider:
   stage: dev
   region: us-east-1
 
-# you can define service wide environment variables here
+  # you can define service wide environment variables here
   environment:
     # This is referenced in handlers
     LOG_LEVEL: INFO
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+      Resource:
+        - Fn::Join:
+          - '/'
+          - - Fn::GetAtt:
+              - LoginEventS3Bucket
+              - Arn
+            - '*'
 
 # You can add functions here
 functions:
@@ -23,7 +35,6 @@ functions:
     runtime: python3.6
     memorySize: 128
     timeout: 15
-    role: WriteEventToS3
     events:
       # http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/EventTypes.html#console_event_type
       - cloudwatchEvent:
@@ -41,32 +52,4 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         AccessControl: Private
-
-    WriteEventToS3:
-      Type: AWS::IAM::Role
-      Properties:
-        RoleName: ${self:service}-${self:provider.stage}-${self:provider.region}-lambdaRole
-        AssumeRolePolicyDocument:
-          Statement:
-            - Effect: Allow
-              Principal:
-                Service:
-                  - lambda.amazonaws.com
-              Action: sts:AssumeRole
-        ManagedPolicyArns:
-          - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-        Policies:
-          - PolicyName: WriteToS3Bucket
-            PolicyDocument:
-              Statement:
-                - Effect: Allow
-                  Action:
-                    - s3:PutObject
-                  Resource:
-                    - Fn::Join:
-                      - '/'
-                      - - Fn::GetAtt:
-                          - LoginEventS3Bucket
-                          - Arn
-                        - '*'
 
